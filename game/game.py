@@ -17,7 +17,7 @@ class Direction(Enum):
 Point=namedtuple('Point','x,y')
 
 BLOCK_SIZE=20
-SPEED=20
+SPEED=50
 
 GREEN=(125,255,50)
 RED=(200,0,0)
@@ -26,7 +26,6 @@ RED2=(250,0,0)
 WHITE=(255,255,255)
 BLUE1=(0,100,255)
 BLUE2=(0,0,255)
-
 
 class SnakeGameAI:
     def __init__(self,w=640,h=480):
@@ -67,7 +66,6 @@ class SnakeGameAI:
                 pygame.quit()
                 quit()
 
-        
         #mozgás
         self._move(action)
         self.snake.insert(0,self.head)
@@ -127,7 +125,6 @@ class SnakeGameAI:
         self.display.blit(text,[0,0])
         pygame.display.flip()
 
-
     def _move(self,action):
         # [egyenes, jobb, bal]
         clock_wise=[Direction.RIGHT,Direction.DOWN,Direction.LEFT,Direction.UP]
@@ -143,7 +140,6 @@ class SnakeGameAI:
             new_dir=clock_wise[next_idx]
         self.direction=new_dir
         
-
         x=self.head.x
         y=self.head.y
         if self.direction==Direction.RIGHT:
