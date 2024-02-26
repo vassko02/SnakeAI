@@ -24,6 +24,15 @@ GREEN=(125,255,50)
 RED=(200,0,0)
 RED2=(250,0,0)
 
+PURPLE=(255,0,255)
+PURPLE2=(200,0,255)
+
+ORANGE=(255,190,0)
+ORANGE2=(218,163,0)
+
+YELLOW=(255,255,0)
+YELLOW2=(228,228,0)
+
 WHITE=(255,255,255)
 WHITE2=(228,228,228)
 BLACK=(0,0,0)
@@ -128,8 +137,23 @@ class SnakeGameAI:
             idx+=1
 
         #étel rajzolása
-        pygame.draw.rect(self.display,RED,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
-        pygame.draw.rect(self.display,RED2,pygame.Rect(self.food.x+4,self.food.y+4,12,12))
+        colorint=random.randint(0,3)
+        match colorint:
+            case 0:
+                color1=PURPLE
+                color2=PURPLE2
+            case 1:
+                color1=RED
+                color2=RED2
+            case 2:
+                color1=ORANGE
+                color2=ORANGE2
+            case 3:
+                color1=YELLOW
+                color2=YELLOW2
+
+        pygame.draw.rect(self.display,color1,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
+        pygame.draw.rect(self.display,color2,pygame.Rect(self.food.x+4,self.food.y+4,12,12))
 
         text=font.render("Score: "+str(self.score),True,BLACK)
         self.display.blit(text,[0,0])

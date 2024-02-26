@@ -131,4 +131,5 @@ def train():
             plot(plot_scores,plot_mean_scores)
 
 if __name__=='__main__':
+    print('Játék betöltse folyamatban, kis türelmet...')
     train()
