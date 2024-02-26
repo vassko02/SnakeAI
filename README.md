@@ -1,17 +1,17 @@
 # SnakeAI
-Létrehozáskor:
+Létrehozáskor:<br />
 
-anaconda telepítése
-Powershell prompt indítása
-Set-Location választott mappa
-conda create -n  pygame_env python=3.12
-conda activate pygame_env
-pip install pygame
-pip install torch torchvision
-pip install matplotlib ipython
-python agent.py
+anaconda telepítése<br />
+Powershell prompt indítása<br />
+Set-Location választott mappa<br />
+conda create -n  pygame_env python=3.12<br />
+conda activate pygame_env<br />
+pip install pygame<br />
+pip install torch torchvision<br />
+pip install matplotlib ipython<br />
+python agent.py<br />
 
-Használathoz:
-Set-Location választott mappa
-conda activate pygame_env
-python agent.py
+Használathoz:<br />
+Set-Location választott mappa<br />
+conda activate pygame_env<br />
+python agent.py<br />
