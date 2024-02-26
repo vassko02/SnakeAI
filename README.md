@@ -9,9 +9,9 @@ conda activate pygame_env
 pip install pygame
 pip install torch torchvision
 pip install matplotlib ipython
-python agnet.py
+python agent.py
 
 Használathoz:
 Set-Location választott mappa
 conda activate pygame_env
-python agnet.py
+python agent.py
