@@ -24,14 +24,14 @@ GREEN=(125,255,50)
 RED=(200,0,0)
 RED2=(250,0,0)
 
-PURPLE=(255,0,255)
-PURPLE2=(200,0,255)
+PURPLE=(200,0,255)
+PURPLE2=(255,0,255)
 
-ORANGE=(255,190,0)
-ORANGE2=(218,163,0)
+ORANGE=(255,165,0)
+ORANGE2=(255,140,0)
 
-YELLOW=(255,255,0)
-YELLOW2=(228,228,0)
+YELLOW=(228,228,0)
+YELLOW2=(255,255,0)
 
 WHITE=(255,255,255)
 WHITE2=(228,228,228)
@@ -40,7 +40,11 @@ BLACK=(0,0,0)
 BLUE1=(0,100,255)
 BLUE2=(0,0,255)
 
+
+
 class SnakeGameAI:
+    color1=RED
+    color2=RED2
     def __init__(self,w=640,h=480):
         self.w=w
         self.h=h
@@ -59,11 +63,30 @@ class SnakeGameAI:
 
         self.score=0
         self.food=None
+
         self._place_food()
         self.frame_iteration=0
 
+    #étel színének randomizálása
+    def _color_food(self):
+        colorint=random.randint(0,3)
+        match colorint:
+            case 0:
+                self.color1=PURPLE
+                self.color2=PURPLE2
+            case 1:
+                self.color1=RED
+                self.color2=RED2
+            case 2:
+                self.color1=ORANGE
+                self.color2=ORANGE2
+            case 3:
+                self.color1=YELLOW
+                self.color2=YELLOW2
+
     #étel helyének randomizálása
     def _place_food(self):
+        self._color_food()
         x=random.randint(BLOCK_SIZE,(self.w-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
         y=random.randint(BLOCK_SIZE,(self.h-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
         self.food=Point(x,y)
@@ -78,7 +101,6 @@ class SnakeGameAI:
             if event.type==pygame.QUIT:
                 pygame.quit()
                 quit()
-
         #mozgás
         self._move(action)
         self.snake.insert(0,self.head)
@@ -137,23 +159,8 @@ class SnakeGameAI:
             idx+=1
 
         #étel rajzolása
-        colorint=random.randint(0,3)
-        match colorint:
-            case 0:
-                color1=PURPLE
-                color2=PURPLE2
-            case 1:
-                color1=RED
-                color2=RED2
-            case 2:
-                color1=ORANGE
-                color2=ORANGE2
-            case 3:
-                color1=YELLOW
-                color2=YELLOW2
-
-        pygame.draw.rect(self.display,color1,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
-        pygame.draw.rect(self.display,color2,pygame.Rect(self.food.x+4,self.food.y+4,12,12))
+        pygame.draw.rect(self.display,self.color1,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
+        pygame.draw.rect(self.display,self.color2,pygame.Rect(self.food.x+4,self.food.y+4,12,12))
 
         text=font.render("Score: "+str(self.score),True,BLACK)
         self.display.blit(text,[0,0])
