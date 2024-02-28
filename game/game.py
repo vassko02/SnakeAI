@@ -21,18 +21,6 @@ SPEED=50
 
 GREEN=(125,255,50)
 
-RED=(200,0,0)
-RED2=(250,0,0)
-
-PURPLE=(200,0,255)
-PURPLE2=(255,0,255)
-
-ORANGE=(255,165,0)
-ORANGE2=(255,140,0)
-
-YELLOW=(228,228,0)
-YELLOW2=(255,255,0)
-
 WHITE=(255,255,255)
 WHITE2=(228,228,228)
 BLACK=(0,0,0)
@@ -43,8 +31,6 @@ BLUE2=(0,0,255)
 
 
 class SnakeGameAI:
-    color1=RED
-    color2=RED2
     def __init__(self,w=640,h=480):
         self.w=w
         self.h=h
@@ -68,27 +54,25 @@ class SnakeGameAI:
         self.frame_iteration=0
 
     #étel színének randomizálása
-    def _color_food(self):
+    def _randomize_food(self):
         colorint=random.randint(0,3)
         match colorint:
             case 0:
-                self.color1=PURPLE
-                self.color2=PURPLE2
+                self.ftype='images/apple.png'
             case 1:
-                self.color1=RED
-                self.color2=RED2
+                self.ftype='images/lemon.png'
             case 2:
-                self.color1=ORANGE
-                self.color2=ORANGE2
+                self.ftype='images/orange.png'
             case 3:
-                self.color1=YELLOW
-                self.color2=YELLOW2
-
+                self.ftype='images/plum.png'
+        self.f=pygame.image.load(self.ftype)
+        self.foodtype= pygame.transform.scale(self.f, (BLOCK_SIZE*1.25,BLOCK_SIZE*1.25))
     #étel helyének randomizálása
     def _place_food(self):
-        self._color_food()
+        self._randomize_food()
         x=random.randint(BLOCK_SIZE,(self.w-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
         y=random.randint(BLOCK_SIZE,(self.h-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
+
         self.food=Point(x,y)
         if self.food in self.snake:
             self._place_food()
@@ -141,13 +125,15 @@ class SnakeGameAI:
         
     def _update_ui(self):
         self.display.fill(GREEN)
+        #keret rajzolása
         for x in range(0,self.w,BLOCK_SIZE):
             for y in range(0,self.h,BLOCK_SIZE):
                 pt=Point(x,y)
                 if x==0 or x==self.w-BLOCK_SIZE or y==0 or y==self.h-BLOCK_SIZE:
                     pygame.draw.rect(self.display,WHITE2,pygame.Rect(pt.x,pt.y,BLOCK_SIZE,BLOCK_SIZE))
                     pygame.draw.rect(self.display,WHITE,pygame.Rect(pt.x+2,pt.y+2,14,14))
-        #kígyó rajzolása      
+
+        #kígyó rajzolása             
         idx=0
         for pt in self.snake:
             if idx==0:
@@ -159,8 +145,8 @@ class SnakeGameAI:
             idx+=1
 
         #étel rajzolása
-        pygame.draw.rect(self.display,self.color1,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
-        pygame.draw.rect(self.display,self.color2,pygame.Rect(self.food.x+4,self.food.y+4,12,12))
+        pygame.draw.rect(self.display,GREEN,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
+        self.display.blit(self.foodtype,(self.food.x,self.food.y))
 
         text=font.render("Score: "+str(self.score),True,BLACK)
         self.display.blit(text,[0,0])
