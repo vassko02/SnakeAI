@@ -17,7 +17,7 @@ class Direction(Enum):
 Point=namedtuple('Point','x,y')
 
 BLOCK_SIZE=20
-SPEED=50
+SPEED=35
 
 GREEN=(125,255,50)
 
@@ -27,8 +27,6 @@ BLACK=(0,0,0)
 
 BLUE1=(0,100,255)
 BLUE2=(0,0,255)
-
-
 
 class SnakeGameAI:
     def __init__(self,w=640,h=480):
@@ -53,7 +51,7 @@ class SnakeGameAI:
         self._place_food()
         self.frame_iteration=0
 
-    #étel színének randomizálása
+    #étel randomizálása
     def _randomize_food(self):
         colorint=random.randint(0,3)
         match colorint:
@@ -70,9 +68,10 @@ class SnakeGameAI:
     #étel helyének randomizálása
     def _place_food(self):
         self._randomize_food()
-        x=random.randint(BLOCK_SIZE,(self.w-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
-        y=random.randint(BLOCK_SIZE,(self.h-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
-
+        x = random.randint(1, (self.w-2*BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE 
+        y = random.randint(1, (self.h-2*BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
+        #x=random.randint(BLOCK_SIZE,(self.w-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
+        #y=random.randint(BLOCK_SIZE,(self.h-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
         self.food=Point(x,y)
         if self.food in self.snake:
             self._place_food()
@@ -92,7 +91,7 @@ class SnakeGameAI:
         #játék végének vizsgálata
         reward=0
         game_over=False
-        if self.is_collision() or self.frame_iteration>100*len(self.snake): #ha egy ideig nem történik semmi akkor is reset
+        if self.is_collision() or self.frame_iteration>70*len(self.snake): #ha egy ideig nem történik semmi akkor is reset
             game_over=True
             reward= -10
             return reward, game_over,self.score
@@ -115,9 +114,11 @@ class SnakeGameAI:
     def is_collision(self,pt=None):
         if pt is None:
             pt=self.head
+
         #falba ütközés
-        if pt.x>self.w- 2*BLOCK_SIZE or pt.x<BLOCK_SIZE or pt.y>self.h - 2*BLOCK_SIZE or pt.y < BLOCK_SIZE:
+        if pt.x > self.w - 2*BLOCK_SIZE or pt.x < BLOCK_SIZE or pt.y > self.h - 2*BLOCK_SIZE or pt.y < BLOCK_SIZE:
             return True
+        
         #magába ütközés
         if pt in self.snake[1:]:
             return True
@@ -125,6 +126,7 @@ class SnakeGameAI:
         
     def _update_ui(self):
         self.display.fill(GREEN)
+
         #keret rajzolása
         for x in range(0,self.w,BLOCK_SIZE):
             for y in range(0,self.h,BLOCK_SIZE):
@@ -146,7 +148,7 @@ class SnakeGameAI:
 
         #étel rajzolása
         pygame.draw.rect(self.display,GREEN,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
-        self.display.blit(self.foodtype,(self.food.x,self.food.y))
+        self.display.blit(self.foodtype,(self.food.x-0.125*BLOCK_SIZE,self.food.y-0.125*BLOCK_SIZE))
 
         text=font.render("Score: "+str(self.score),True,BLACK)
         self.display.blit(text,[0,0])
