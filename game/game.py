@@ -106,7 +106,7 @@ class SnakeGameAI:
         #ui frissités
         self._update_ui()
 
-        self.clock.tick(SPEED+self.score*3)
+        self.clock.tick(SPEED+self.score)
 
         #játék vége
         return reward, game_over,self.score
@@ -150,7 +150,7 @@ class SnakeGameAI:
         pygame.draw.rect(self.display,GREEN,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
         self.display.blit(self.foodtype,(self.food.x-0.125*BLOCK_SIZE,self.food.y-0.125*BLOCK_SIZE))
 
-        text=font.render("Score: "+str(self.score),True,BLACK)
+        text=font.render("Pontszám: "+str(self.score),True,BLACK)
         self.display.blit(text,[0,0])
         pygame.display.flip()
 
