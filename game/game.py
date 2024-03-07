@@ -65,25 +65,25 @@ class SnakeGameAI:
                 self.ftype='images/plum.png'
         self.f=pygame.image.load(self.ftype)
         self.foodtype= pygame.transform.scale(self.f, (BLOCK_SIZE*1.25,BLOCK_SIZE*1.25))
+
     #étel helyének randomizálása
     def _place_food(self):
         self._randomize_food()
         x = random.randint(1, (self.w-2*BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE 
         y = random.randint(1, (self.h-2*BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
-        #x=random.randint(BLOCK_SIZE,(self.w-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
-        #y=random.randint(BLOCK_SIZE,(self.h-2*BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
         self.food=Point(x,y)
         if self.food in self.snake:
             self._place_food()
 
-
     def play_step(self,action):  
         self.frame_iteration+=1
+
         #bemenet kezelése
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()
                 quit()
+
         #mozgás
         self._move(action)
         self.snake.insert(0,self.head)
@@ -96,16 +96,18 @@ class SnakeGameAI:
             reward= -10
             return reward, game_over,self.score
 
-        #új étel vagy mozás
+        #új étel vagy mozgás
         if self.head== self.food:
             self.score+=1   
             reward =10  
             self._place_food()
         else:
             self.snake.pop()
+
         #ui frissités
         self._update_ui()
 
+        #sebesség növelése
         self.clock.tick(SPEED+self.score)
 
         #játék vége
@@ -155,6 +157,7 @@ class SnakeGameAI:
         pygame.display.flip()
 
     def _move(self,action):
+
         # [egyenes, jobb, bal]
         clock_wise=[Direction.RIGHT,Direction.DOWN,Direction.LEFT,Direction.UP]
         idx=clock_wise.index(self.direction)
@@ -164,9 +167,9 @@ class SnakeGameAI:
         elif np.array_equal(action,[0,1,0]):
             next_idx=(idx+1)%4
             new_dir=clock_wise[next_idx] #jobbra fordulás
-        else: #balra fordulás
+        else: 
             next_idx=(idx-1)%4
-            new_dir=clock_wise[next_idx]
+            new_dir=clock_wise[next_idx] #balra fordulás
         self.direction=new_dir
         
         x=self.head.x
