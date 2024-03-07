@@ -8,7 +8,7 @@ from helper import plot
 
 MAX_MEMORY=100_000
 BATCH_SIZE=1000
-LR=0.002 #learning rate
+LR=0.001 #learning rate
 
 class Agent:
     def __init__(self):
