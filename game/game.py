@@ -17,7 +17,7 @@ class Direction(Enum):
 Point=namedtuple('Point','x,y')
 
 BLOCK_SIZE=20
-SPEED=35
+SPEED=10
 
 GREEN=(125,255,50)
 
@@ -152,6 +152,7 @@ class SnakeGameAI:
         pygame.draw.rect(self.display,GREEN,pygame.Rect(self.food.x,self.food.y,BLOCK_SIZE,BLOCK_SIZE))
         self.display.blit(self.foodtype,(self.food.x-0.125*BLOCK_SIZE,self.food.y-0.125*BLOCK_SIZE))
 
+        #szöveg kírása az ablak tetejére
         text=font.render("Pontszám: "+str(self.score),True,BLACK)
         self.display.blit(text,[0,0])
         pygame.display.flip()
