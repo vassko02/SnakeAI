@@ -117,7 +117,7 @@ def train():
 
         if done:
 
-            #hosszutavu memoria képzés
+            #hosszútávú memória képzés
             game.reset()
             agent.n_games+=1
             agent.train_long_memory()
